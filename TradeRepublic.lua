@@ -31,10 +31,10 @@ function ListAccounts (knownAccounts)
 end
 
 function RefreshAccount (account, since)
-    local bid = loadCurrentBidLangAndSchwartz()
     local orders = loadOrders()
     local portfolio = {}
     for index, order in ipairs(orders) do
+        local bid = loadCurrentBidLangAndSchwartz(order["url"])
         portfolio[index] = {
             -- https://moneymoney-app.com/api/webbanking/#securities
             name= order["name"],
@@ -55,8 +55,8 @@ function EndSession ()
     -- Logout.
 end
 
-function loadCurrentBidLangAndSchwartz()
-    local html = HTML(connection:get("https://www.ls-tc.de/de/aktie/disney-walt-co-aktie"))
+function loadCurrentBidLangAndSchwartz(url)
+    local html = HTML(connection:get(url))
     
     local element = html:xpath("//span[@field='bid']")
     local bid_text = element:text()
