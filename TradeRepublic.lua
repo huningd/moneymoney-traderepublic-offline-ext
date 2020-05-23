@@ -33,19 +33,22 @@ end
 function RefreshAccount (account, since)
     local bid = loadCurrentBidLangAndSchwartz()
     local orders = loadOrders()
-    local portfolio = {
-        -- https://moneymoney-app.com/api/webbanking/#securities
-        name= orders[1]["name"],
-        securityNumber = orders[1]["wkn"],
-        isin = orders[1]["isin"],
-        market = orders[1]["market"],
-        quantity = orders[1]["quantity"],
-        tradeTimestamp = strToFullDate(orders[1]["tradeTimestamp"]),
-        amount = bid * orders[1]["quantity"],
-        price = bid,
-        purchasePrice = orders[1]["purchasePrice"]
-    }
-    return {securities={portfolio}}
+    local portfolio = {}
+    for index, order in ipairs(orders) do
+        portfolio[index] = {
+            -- https://moneymoney-app.com/api/webbanking/#securities
+            name= order["name"],
+            securityNumber = order["wkn"],
+            isin = order["isin"],
+            market = order["market"],
+            quantity = order["quantity"],
+            tradeTimestamp = strToFullDate(order["tradeTimestamp"]),
+            amount = bid * order["quantity"],
+            price = bid,
+            purchasePrice = order["purchasePrice"]
+        }
+    end
+    return {securities=portfolio}
 end
 
 function EndSession ()

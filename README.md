@@ -7,5 +7,4 @@ This extension isn't signed so you have to activate the beta mode. To install th
 
 # TODO
 * Process different orders from different markets
-* Process more than one order
 * Process more than one account
